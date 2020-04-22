@@ -12,7 +12,7 @@
         public ShellViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
-            this.DisplayName = "Caliburn.Micro Alpha Test";
+            this.DisplayName = "Caliburn.Micro Async Playground";
         }
 
         protected override Task OnInitializeAsync(CancellationToken cancellationToken)
