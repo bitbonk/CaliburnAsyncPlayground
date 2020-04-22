@@ -1,8 +1,4 @@
-﻿// <copyright>
-//     Copyright (c) AIS Automation Dresden GmbH. All rights reserved.
-// </copyright>
-
-namespace CaliburnAsyncPlayground
+﻿namespace CaliburnAsyncPlayground
 {
     using System.Windows.Controls;
 
