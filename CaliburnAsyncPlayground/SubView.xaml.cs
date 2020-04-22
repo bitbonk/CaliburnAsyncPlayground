@@ -1,11 +1,7 @@
-﻿// <copyright>
-//     Copyright (c) AIS Automation Dresden GmbH. All rights reserved.
-// </copyright>
-
-using System.Windows.Controls;
-
-namespace CaliburnAsyncPlayground
+﻿namespace CaliburnAsyncPlayground
 {
+    using System.Windows.Controls;
+
     public partial class SubView : UserControl
     {
         public SubView()

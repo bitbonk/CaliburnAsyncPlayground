@@ -1,8 +1,4 @@
-﻿// <copyright>
-//     Copyright (c) AIS Automation Dresden GmbH. All rights reserved.
-// </copyright>
-
-namespace CaliburnAsyncPlayground
+﻿namespace CaliburnAsyncPlayground
 {
     using System;
     using System.Threading;
@@ -23,22 +19,20 @@ namespace CaliburnAsyncPlayground
             this.eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
         }
 
-        protected override Task OnInitializeAsync(CancellationToken cancellationToken)
-        {
-            this.eventAggregator.SubscribeOnPublishedThread(this);
-            return Task.CompletedTask;
-        }
-
         public async Task SendSomethingAsync(CancellationToken cancellationToken)
         {
             this.sendCounter++;
             Log.Information(
-                $"{this.sendCounter} Sending from '{this.DisplayName}' {cancellationToken.IsCancellationRequested}");
+                $"{this.sendCounter} Sending message number {this.sendCounter} from '{this.DisplayName}' {cancellationToken.IsCancellationRequested}");
             await this.eventAggregator.PublishOnCurrentThreadAsync(
-                new Message { For = this.DisplayName == App.FirstScreen ? App.SecondScreen : App.FirstScreen },
+                new Message
+                {
+                    For = this.DisplayName == App.FirstScreen ? App.SecondScreen : App.FirstScreen,
+                    Text = this.sendCounter.ToString()
+                },
                 cancellationToken);
             Log.Information(
-                $"{this.sendCounter} Sent from '{this.DisplayName}' {cancellationToken.IsCancellationRequested}");
+                $"{this.sendCounter} Sent message number {this.sendCounter} from '{this.DisplayName}' {cancellationToken.IsCancellationRequested}");
         }
 
         public async Task DoSomethingAsync(CancellationToken cancellationToken)
@@ -61,10 +55,16 @@ namespace CaliburnAsyncPlayground
 
             this.receiveCounter++;
             Log.Information(
-                $"{this.receiveCounter} Handling in '{this.DisplayName}' {cancellationToken.IsCancellationRequested}");
+                $"{this.receiveCounter} Handling message number {message.Text} in '{this.DisplayName}' {cancellationToken.IsCancellationRequested}");
             await Task.Delay(App.TaskDelay, cancellationToken);
             Log.Information(
-                $"{this.receiveCounter} Handled in '{this.DisplayName}' {cancellationToken.IsCancellationRequested}");
+                $"{this.receiveCounter} Handled message number {message.Text} in '{this.DisplayName}' {cancellationToken.IsCancellationRequested}");
+        }
+
+        protected override Task OnInitializeAsync(CancellationToken cancellationToken)
+        {
+            this.eventAggregator.SubscribeOnPublishedThread(this);
+            return Task.CompletedTask;
         }
 
         protected override async Task OnActivateAsync(CancellationToken cancellationToken)
